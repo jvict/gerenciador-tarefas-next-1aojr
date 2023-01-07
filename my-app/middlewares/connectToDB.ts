@@ -14,7 +14,7 @@ export const connectToDB = (handler: NextApiHandler) =>
     if(!DB_CONNECTION_STRING){
         return res.status(500).json({error : 'Env DB_CONNECTION_STRING não informada'});
     }
-
+    mongoose.set("strictQuery", true);
     mongoose.connection.on('connected', () => console.log('Conectado ao banco de dados'));
     mongoose.connection.on('error', error => console.log('Erro ao conectar no banco de dados:', error));
     await mongoose.connect(DB_CONNECTION_STRING);

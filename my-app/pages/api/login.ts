@@ -10,8 +10,9 @@ export default async function (requisicao: NextApiRequest, resposta: NextApiResp
         if (requisicao.method !== 'POST') {
             return resposta.status(405).json({ error: 'Método informado não existe' });
         }
+        
+        const { MY_SECRET_KEY } = process.env;
 
-        const {MY_SECRET_KEY} = process.env;
         if(!MY_SECRET_KEY){
             return resposta.status(500).json({error : 'Env MY_SECRET_KEY não informada'});
         }
@@ -36,6 +37,7 @@ export default async function (requisicao: NextApiRequest, resposta: NextApiResp
         const savedPassword = bytes.toString(CryptoJS.enc.Utf8);
 
         if (password === savedPassword) {
+            
             const token = jwt.sign({_id: user._id}, MY_SECRET_KEY);
 
             const result = {
