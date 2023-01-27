@@ -82,11 +82,11 @@ export const Home : NextPage<HomeProps> = ({setToken}) =>{
             await getFilteredData();
             closeModal();
         }catch(e : any){
-            console.log(`Erro ao efetuar login: ${e}`);
+            console.log(`Erro salvar tarefa: ${e}`);
             if(e?.response?.data?.error){
                 setErrorMsg(e.response.data.error);
             }else{
-                setErrorMsg(`Erro ao efetuar login, tente novamente.`);
+                setErrorMsg(`Erro salvar tarefa, tente novamente.`);
             }
         }
 

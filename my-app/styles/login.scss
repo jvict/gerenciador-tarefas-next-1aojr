@@ -47,6 +47,17 @@
             font-size:16px;
             margin-top: 20px;
         }
+
+        span {
+            display: flex;
+            justify-content: center;
+            color: $mediumGreyColor;
+            text-decoration: underline;
+            cursor: pointer;
+            padding-top: 15px;
+        }
+
+        
     }
 
     @media screen and (min-width: $mediaQueryDesktop){
@@ -79,6 +90,15 @@
             
             button{
                 font-size: 18px;
+            }
+
+            span {
+                display: flex;
+                justify-content: center;
+                color: $mediumGreyColor;
+                text-decoration: underline;
+                cursor: pointer;
+                padding-top: 15px;
             }
         }
 

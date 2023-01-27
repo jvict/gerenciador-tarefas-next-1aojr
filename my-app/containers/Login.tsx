@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useState } from "react";
+import { Modal } from "react-bootstrap";
 import { executeRequest } from "../services/api";
 
 type LoginProps =  {
@@ -12,6 +13,51 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
     const [password, setPassword] = useState('')
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    // STATES DO MODAL
+    const [showModal, setShowModal] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+
+    const closeModal = () => {
+        setShowModal(false);
+        setLoading(false);
+        setErrorMsg('');
+        setName('');
+        setEmail('');
+        setPassword('');
+    }
+
+    const doSave = async () => {
+        try{
+            setErrorMsg('');
+            if(!name || !email || !password ){
+                setErrorMsg('Favor preencher os campos!');
+                return
+            }
+
+            setLoading(true);
+
+            const body = {
+                name,
+                email,
+                password
+            };
+
+            await executeRequest('user', 'post', body);
+            closeModal();
+        }catch(e : any){
+            console.log(`Erro ao criar novo usuario: ${e}`);
+            if(e?.response?.data?.error){
+                setErrorMsg(e.response.data.error);
+            }else{
+                setErrorMsg(`Erro ao cadastrar usuario, tente novamente.`);
+            }
+        }
+
+        setLoading(false);
+    }
 
     const  doLogin = async () => {
         try {
@@ -52,31 +98,59 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
     }
 
     return (
-        <div className="container-login">
-            <img src="/logo.svg" alt="Logo FIAP" className="logo"/>
-            <div className="form">
-                {error && <p className="error">{error}</p>}
+        <>
+            <div className="container-login">
+                <img src="/logo.svg" alt="Logo FIAP" className="logo"/>
+                <div className="form">
+                    {error && <p className="error">{error}</p>}
 
-                {/* input login/email */}
-                <div className="input">
-                    <img src="/mail.svg" alt="Login Icone" />
-                    <input type="text" placeholder="Login"
-                        value={login}
-                        onChange={evento=> setLogin(evento.target.value)}
-                    />
+                    {/* input login/email */}
+                    <div className="input">
+                        <img src="/mail.svg" alt="Login Icone" />
+                        <input type="text" placeholder="Login"
+                            value={login}
+                            onChange={evento=> setLogin(evento.target.value)}
+                        />
+                    </div>
+
+                    {/* input passworld */}   
+                    <div className="input">
+                        <img src="/lock.svg" alt="Senha Icone" />
+                        <input type="password" placeholder="Senha"
+                            value={password}
+                            onChange={evento => setPassword(evento.target.value)}
+                        />
+                    </div>
+
+                    <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando' : 'Login'}</button>
+                    <span  onClick={() => setShowModal(true)}>Criar nova conta</span>
+                    
                 </div>
-
-                {/* input passworld */}   
-                <div className="input">
-                    <img src="/lock.svg" alt="Senha Icone" />
-                    <input type="password" placeholder="Senha"
-                        value={password}
-                        onChange={evento => setPassword(evento.target.value)}
-                    />
-                </div>
-
-                <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando' : 'Login'}</button>
+                
             </div>
-        </div>
+            <Modal
+                show={showModal}
+                onHide={closeModal}
+                className="container-modal"
+            >
+                <Modal.Body>
+                    <p>Novo Cadastro</p>
+                    {errorMsg && <p className="error">{errorMsg}</p>}
+                    <input type='text' placeholder="Nome"
+                        value={name} onChange={e => setName(e.target.value)} />
+                    <input type='text' placeholder="Email"
+                        value={email} onChange={e => setEmail(e.target.value)} />
+                    <input type='text' placeholder="Senha" 
+                        value={password} onChange={e => setPassword(e.target.value)} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <div className="button col-12">
+                        <button onClick={doSave} disabled={loading}>{loading ? '...Carregando' : 'Cadastrar'}</button>
+                        <span onClick={closeModal}>Cancelar</span>
+                    </div>
+                </Modal.Footer>
+            </Modal>
+        </>
+        
     )
 }
