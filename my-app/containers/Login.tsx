@@ -17,12 +17,13 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
     // STATES DO MODAL
     const [showModal, setShowModal] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [loadingModal, setLoadingModal] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
     const closeModal = () => {
         setShowModal(false);
-        setLoading(false);
+        setLoadingModal(false);
         setErrorMsg('');
         setName('');
         setEmail('');
@@ -37,7 +38,7 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
                 return
             }
 
-            setLoading(true);
+            setLoadingModal(true);
 
             const body = {
                 name,
@@ -56,7 +57,7 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
             }
         }
 
-        setLoading(false);
+        setLoadingModal(false);
     }
 
     const  doLogin = async () => {
@@ -145,7 +146,7 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="button col-12">
-                        <button onClick={doSave} disabled={loading}>{loading ? '...Carregando' : 'Cadastrar'}</button>
+                        <button onClick={doSave} disabled={loadingModal}>{loadingModal ? '...Carregando' : 'Cadastrar'}</button>
                         <span onClick={closeModal}>Cancelar</span>
                     </div>
                 </Modal.Footer>

@@ -33,7 +33,3 @@ export const Header: NextPage<HeaderProps> = ({sair, showModal}) =>{
         </div>
     )
 }
-
-function seEffect(arg0: () => void, arg1: never[]) {
-    throw new Error("Function not implemented.")
-}

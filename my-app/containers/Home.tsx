@@ -1,10 +1,11 @@
+import moment from "moment";
 import { NextPage } from "next"
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Filter } from "../components/Filter";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header"
-import {List} from "../components/list"
+import {List} from '../components/List'
 import { executeRequest } from "../services/api";
 
 type HomeProps = {
@@ -118,13 +119,13 @@ export const Home : NextPage<HomeProps> = ({setToken}) =>{
                     <input type='text' placeholder="Previsão da tarefa" onFocus={(e)=>{e.target.type = "date"}} onBlur={(e) => e.target.type = "text"}
                         value={finishPrevisionDate} onChange={e => setFinishPrevisionDate(e.target.value)} />
                 </Modal.Body>
-            <Modal.Footer>
-                <div className="button col-12">
-                    <button onClick={doSave} disabled={loading}>{loading ? '...Carregando' : 'Salvar'}</button>
-                    <span onClick={closeModal}>Cancelar</span>
-                </div>
-            </Modal.Footer>
-        </Modal>
+                <Modal.Footer>
+                    <div className="button col-12">
+                        <button onClick={doSave} disabled={loading}>{loading ? '...Carregando' : 'Salvar'}</button>
+                        <span onClick={closeModal}>Cancelar</span>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
