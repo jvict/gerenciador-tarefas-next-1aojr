@@ -20,6 +20,7 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
     const [loadingModal, setLoadingModal] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [passwordModal, setPasswordModal] = useState('')
 
     const closeModal = () => {
         setShowModal(false);
@@ -27,13 +28,13 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
         setErrorMsg('');
         setName('');
         setEmail('');
-        setPassword('');
+        setPasswordModal('');
     }
 
     const doSave = async () => {
         try{
             setErrorMsg('');
-            if(!name || !email || !password ){
+            if(!name || !email || !passwordModal ){
                 setErrorMsg('Favor preencher os campos!');
                 return
             }
@@ -43,7 +44,7 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
             const body = {
                 name,
                 email,
-                password
+                password: passwordModal
             };
 
             await executeRequest('user', 'post', body);
@@ -124,9 +125,9 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
                     </div>
 
                     <button onClick={doLogin} disabled={loading}>{loading ? '...Carregando' : 'Login'}</button>
-                    <span  onClick={() => setShowModal(true)}>Criar nova conta</span>
+                    <span  onClick={() => setShowModal(true)}>Cadastra-se já !!</span>
                     
-                </div>
+                </div> 
                 
             </div>
             <Modal
@@ -142,7 +143,7 @@ export const Login : NextPage<LoginProps> = ({setToken}) =>{
                     <input type='text' placeholder="Email"
                         value={email} onChange={e => setEmail(e.target.value)} />
                     <input type='text' placeholder="Senha" 
-                        value={password} onChange={e => setPassword(e.target.value)} />
+                        value={passwordModal} onChange={e => setPasswordModal(e.target.value)} />
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="button col-12">
