@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type HeaderProps =  {
     sair (): void
@@ -7,20 +7,33 @@ type HeaderProps =  {
 }
 
 export const Header: NextPage<HeaderProps> = ({sair, showModal}) =>{
+    const [name, setName] = useState<string| null>('');
+
+    useEffect(()=>{
+        if(typeof window !== 'undefined'){
+          const at = localStorage.getItem('name');
+          setName(at);
+        }
+      },[])
+
     return(
         <div className="container-header">
             <img src="/logo.svg" alt="Logo FIAP" className="logo"/>
             <button onClick={showModal}><span>+</span> Adicionar Tarefa</button>
             
             <div className="mobile">
-            <span>Olá, {localStorage.getItem('name')?.toString()} </span>
+                <span>Olá, {name}</span>
                 <img src="/exit-mobile.svg" alt="Sair" onClick={sair}/>
             </div>
 
             <div className="desktop">
-                <span>Olá,</span>
+                <span>Olá,{name}</span>
                 <img src="/exit-desktop.svg" alt="Sair" onClick={sair}/>
             </div>
         </div>
     )
+}
+
+function seEffect(arg0: () => void, arg1: never[]) {
+    throw new Error("Function not implemented.")
 }
