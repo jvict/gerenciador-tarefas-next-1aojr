@@ -14,7 +14,7 @@ export const Header: NextPage<HeaderProps> = ({sair, showModal}) =>{
           const at = localStorage.getItem('name');
           setName(at);
         }
-      },[])
+    },[])
 
     return(
         <div className="container-header">

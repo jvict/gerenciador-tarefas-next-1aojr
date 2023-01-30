@@ -73,7 +73,7 @@ export const Home : NextPage<HomeProps> = ({setToken}) =>{
             }
 
             setLoading(true);
-
+        
             const body = {
                 name,
                 finishPrevisionDate
@@ -116,7 +116,7 @@ export const Home : NextPage<HomeProps> = ({setToken}) =>{
                     {errorMsg && <p className="error">{errorMsg}</p>}
                     <input type='text' placeholder="Nome da tarefa"
                         value={name} onChange={e => setName(e.target.value)} />
-                    <input type='text' placeholder="Previsão da tarefa" onFocus={(e)=>{e.target.type = "date"}} onBlur={(e) => e.target.type = "text"}
+                    <input type='text' placeholder="Previsão da tarefa" onFocus={(e)=>{e.target.type="date"}} onBlur={(e) => e.target.type="text"}
                         value={finishPrevisionDate} onChange={e => setFinishPrevisionDate(e.target.value)} />
                 </Modal.Body>
                 <Modal.Footer>
