@@ -143,8 +143,6 @@ const saveTask = async(req: NextApiRequest, res: NextApiResponse<DefaultMessageR
             return res.status(400).json({ error: 'Nome da tarefa invalida' });
         }
 
-        console.log(moment())
-
         if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment().format('yyyy-MM-DD'))) {
             return res.status(400).json({ error: 'Data de previsao invalida ou menor que hoje' });
         }
